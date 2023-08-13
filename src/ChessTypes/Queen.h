@@ -6,7 +6,7 @@
 
 class Queen : public ChessPiece {
 public:
-    Queen(const bool& isBlack) : ChessPiece(isBlack, 'P') {}
+    Queen(const bool& isBlack) : ChessPiece(isBlack, 'Q') {}
     bool canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
 };
 

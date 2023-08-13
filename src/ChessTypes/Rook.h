@@ -6,7 +6,7 @@
 
 class Rook : public ChessPiece{
 public:
-    Rook(const bool& isBlack) : ChessPiece(isBlack, 'P') {}
+    Rook(const bool& isBlack) : ChessPiece(isBlack, 'R') {}
     bool canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
 };
 

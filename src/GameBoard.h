@@ -6,7 +6,7 @@
 #include "ChessTypes.h"
 #include <Windows.h>
 
-#define WHITE_BACKGROUND 127
+#define WHITE_BACKGROUND 112
 #define BLACK_BACKGROUND 128
 
 #define WHITE_TEXT 12
