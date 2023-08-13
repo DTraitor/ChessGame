@@ -1,6 +1,7 @@
 #include "GameBoard.h"
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 template <typename T>
 int getSign(T val) {
@@ -100,4 +101,29 @@ BoardTile* GameBoard::getCardinalLine(const BoardTile& first, const BoardTile& l
     }
 
     return returnArray;
+}
+
+void GameBoard::PrintBoard(HANDLE &console) {
+    for(int i = 0; i < BoardSize; i++)
+    {
+        for(int j = 0; j < BoardSize; j++){
+            unsigned short textColor = ((i + j) & 1) ? WHITE_BACKGROUND : BLACK_BACKGROUND;
+
+            if(board[i][j].hasPiece())
+                textColor |= board[i][j].getPiece()->isBlack() ? BLACK_TEXT : WHITE_TEXT;
+
+            SetConsoleTextAttribute(
+                    console,
+                    textColor
+            );
+            std::cout << (board[i][j].hasPiece() ? board[i][j].getPiece()->getIcon() : ' ');
+        }
+        SetConsoleTextAttribute(
+                console,
+                15
+        );
+        std::cout << "\n";
+    }
+
+    std::cout.flush();
 }
