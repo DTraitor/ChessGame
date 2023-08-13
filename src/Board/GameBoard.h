@@ -3,7 +3,7 @@
 
 
 #include "BoardTile.h"
-#include "ChessTypes.h"
+#include "../Chess/ChessTypes.h"
 #include <Windows.h>
 
 #define WHITE_BACKGROUND 112

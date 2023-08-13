@@ -1,4 +1,4 @@
-#include "ChessPiece.h"
+#include "../Chess/ChessPiece.h"
 #include "BoardTile.h"
 
 BoardTile::BoardTile(const int& x, const int& y) {

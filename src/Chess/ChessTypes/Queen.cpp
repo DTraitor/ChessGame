@@ -1,4 +1,4 @@
-#include "../GameBoard.h"
+#include "../../Board/GameBoard.h"
 #include "Queen.h"
 #include <stdexcept>
 

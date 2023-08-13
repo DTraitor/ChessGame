@@ -1,4 +1,4 @@
-#include "../GameBoard.h"
+#include "../../Board/GameBoard.h"
 #include "King.h"
 
 bool King::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {

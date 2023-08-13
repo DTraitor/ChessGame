@@ -2,7 +2,7 @@
 #define CHESSGAME_BOARDTILE_H
 
 
-#include "ChessPiece.h"
+#include "../Chess/ChessPiece.h"
 
 class BoardTile {
 public:

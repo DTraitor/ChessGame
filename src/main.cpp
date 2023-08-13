@@ -1,7 +1,7 @@
 #include <iostream>
 //No linux support YET
 #include <windows.h>
-#include "GameBoard.h"
+#include "Board/GameBoard.h"
 
 
 enum Keys{

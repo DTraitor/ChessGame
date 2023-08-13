@@ -1,4 +1,4 @@
-#include "../GameBoard.h"
+#include "../../Board/GameBoard.h"
 #include "Bishop.h"
 #include <stdexcept>
 
