@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Board/GameBoard.h"
-#include "ConsoleOuput/ConsoleControl.h"
+#include "ChessGame/Board/GameBoard.h"
+#include "ConsoleControl/ConsoleControl.h"
 
 int main() {
 #ifdef _WIN32
@@ -9,7 +9,7 @@ int main() {
     ConsoleControl::ResetConsole();
     ConsoleControl::SetCursorVisibility(false);
 
-    GameBoard board;
+    ChessGame::GameBoard board;
     board.PrintBoard();
 
     std::cin.get();
