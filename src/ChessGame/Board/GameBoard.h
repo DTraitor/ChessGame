@@ -4,7 +4,6 @@
 
 #include "BoardTile.h"
 #include "../Chess/ChessTypes.h"
-#include "../../ConsoleControl/ConsoleControl.h"
 
 namespace ChessGame {
     class GameBoard {
@@ -25,13 +24,12 @@ namespace ChessGame {
 
         void PrintBoard();
 
-    private:
-        const static int BoardSize = 8;
-        const static ConsoleControl::TextColors whiteColor = ConsoleControl::TextColors::WHITE;
-        const static ConsoleControl::TextColors blackColor = ConsoleControl::TextColors::BLACK;
-        const static ConsoleControl::BackgroundColors oddBackground = ConsoleControl::BackgroundColors::CYAN;
-        const static ConsoleControl::BackgroundColors evenBackground = ConsoleControl::BackgroundColors::GREEN;
+        inline BoardTile &GetTileAt(int x, int y){
+            return board[y][x];
+        }
 
+        const static int BoardSize = 8;
+    private:
         BoardTile board[BoardSize][BoardSize];
         King *whiteKing{};
         King *blackKing{};

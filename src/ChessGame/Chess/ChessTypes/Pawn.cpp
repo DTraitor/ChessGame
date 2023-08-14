@@ -13,10 +13,10 @@ namespace ChessGame {
 
         //If we try to move backwards or more than 1 tile forward
         if (IsBlack()) {
-            if ((ourTile.getY() - tileToMove.getY()) != 1)
+            if ((ourTile.getY() - tileToMove.getY()) != -1)
                 return false;
         } else {
-            if ((ourTile.getY() - tileToMove.getY()) != -1)
+            if ((ourTile.getY() - tileToMove.getY()) != 1)
                 return false;
         }
 

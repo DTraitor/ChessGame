@@ -10,6 +10,11 @@ int getSign(T val) {
 
 namespace ChessGame {
     GameBoard::GameBoard() {
+        for(int i = 0; i < BoardSize; i++){
+            for(int j = 0; j < BoardSize; j++){
+                board[i][j] = BoardTile(j + 1, i + 1);
+            }
+        }
         ResetBoard();
     }
 
@@ -103,15 +108,9 @@ namespace ChessGame {
     }
 
     void GameBoard::PrintBoard() {
-        ConsoleControl::TextFormat format{ConsoleControl::TextAttributes::NONE};
-
-        for (int i = 0; i < BoardSize; i++) {
-            for (int j = 0; j < BoardSize; j++) {
-                format.backgroundColor = ((i + j) & 1) ? oddBackground : evenBackground;
-                if (board[i][j].hasPiece())
-                    format.textColor = board[i][j].getPiece()->IsBlack() ? blackColor : whiteColor;
-
-                std::cout << format.FormatString(board[i][j].hasPiece() ? board[i][j].getPiece()->GetIcon() : ' ');
+        for (auto & line : board) {
+            for (BoardTile &tile : line) {
+                std::cout << tile.GenerateDefaultString();
             }
             std::cout << "\n";
         }

@@ -6,10 +6,12 @@
 
 namespace ConsoleControl {
     enum class KeyCodes{
+        CTRL_C = 3,
         UP = 72,
         LEFT = 75,
         RIGHT = 77,
-        DOWN = 80
+        DOWN = 80,
+        SMALL_X = 'x'
     };
 
     enum class TextAttributes{
@@ -51,6 +53,13 @@ namespace ConsoleControl {
 
     void SetCursorVisibility(bool visible);
     void ResetConsole();
+    void SetCursorPosition(int x, int y);
+    void CursorUp();
+    void CursorDown();
+    void CursorRight();
+    void CursorLeft();
+    void SetCursorControls();
+    void SetCursorInformation();
 
     struct TextFormat{
         template <typename toFormat>

@@ -3,6 +3,7 @@
 
 
 #include "../Chess/ChessPiece.h"
+#include "../../ConsoleControl/ConsoleControl.h"
 
 namespace ChessGame {
     class BoardTile {
@@ -24,6 +25,14 @@ namespace ChessGame {
         inline void setPiece(ChessPiece* newPiece){
             piece = newPiece;
         }
+        std::string GenerateDefaultString();
+        std::string GeneratedSelectedString();
+
+    const static ConsoleControl::TextColors whiteColor = ConsoleControl::TextColors::WHITE;
+    const static ConsoleControl::TextColors blackColor = ConsoleControl::TextColors::BLACK;
+    const static ConsoleControl::BackgroundColors oddBackground = ConsoleControl::BackgroundColors::CYAN;
+    const static ConsoleControl::BackgroundColors evenBackground = ConsoleControl::BackgroundColors::GREEN;
+    const static ConsoleControl::BackgroundColors selectedBackground = ConsoleControl::BackgroundColors::RED;
 
     private:
         ChessPiece* piece = nullptr;

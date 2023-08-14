@@ -27,3 +27,24 @@ void ConsoleControl::SetCursorVisibility(bool visible) {
 void ConsoleControl::ResetConsole() {
     std::cout << "\33c" << std::flush;
 }
+
+void ConsoleControl::SetCursorPosition(int x, int y) {
+    std::cout << "\33[" << y << ";" << x << "H";
+}
+
+void ConsoleControl::CursorUp() {
+    std::cout << "\33[1A";
+}
+
+void ConsoleControl::CursorDown() {
+    std::cout << "\33[1B";
+}
+
+void ConsoleControl::CursorRight() {
+    std::cout << "\33[1C";
+}
+
+void ConsoleControl::CursorLeft() {
+    std::cout << "\33[1D";
+}
+
