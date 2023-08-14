@@ -11,10 +11,10 @@ class GameBoard;
 class ChessPiece {
 public:
     ChessPiece(const bool& isBlack, const char& newIcon) : black(isBlack), icon(newIcon) {}
-    inline char getIcon() const{
+    inline char GetIcon() const{
         return icon;
     }
-    inline bool isBlack() const{
+    inline bool IsBlack() const{
         return black;
     }
     //If we can move onto this tile

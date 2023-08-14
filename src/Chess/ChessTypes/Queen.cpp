@@ -12,7 +12,7 @@ bool Queen::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board)
 
         try{
             checkArray(
-                    board.getDiagonalLine(ourTile, tileToMove),
+                    board.GetDiagonalLine(ourTile, tileToMove),
                     tileToMove.getX() - ourTile.getX()
             );
         }
@@ -23,7 +23,7 @@ bool Queen::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board)
     else{
         try{
             checkArray(
-                    board.getCardinalLine(ourTile, tileToMove),
+                    board.GetCardinalLine(ourTile, tileToMove),
                     (tileToMove.getX() - ourTile.getX()) || (tileToMove.getY() - ourTile.getY())
             );
         }

@@ -4,13 +4,7 @@
 
 #include "BoardTile.h"
 #include "../Chess/ChessTypes.h"
-#include <Windows.h>
-
-#define WHITE_BACKGROUND 112
-#define BLACK_BACKGROUND 128
-
-#define WHITE_TEXT 12
-#define BLACK_TEXT 10
+#include "../ConsoleOuput/ConsoleControl.h"
 
 class GameBoard {
 public:
@@ -19,11 +13,16 @@ public:
     void CleanBoard();
     void ResetBoard();
     void GenerateFigures(int line, bool isBlack);
-    BoardTile* getDiagonalLine(const BoardTile& first, const BoardTile& last);
-    BoardTile* getCardinalLine(const BoardTile& first, const BoardTile& last);
-    void PrintBoard(HANDLE &console);
+    BoardTile* GetDiagonalLine(const BoardTile& first, const BoardTile& last);
+    BoardTile* GetCardinalLine(const BoardTile& first, const BoardTile& last);
+    void PrintBoard();
 private:
     const static int BoardSize = 8;
+    const static ConsoleControl::TextColors whiteColor = ConsoleControl::TextColors::WHITE;
+    const static ConsoleControl::TextColors blackColor = ConsoleControl::TextColors::BLACK;
+    const static ConsoleControl::BackgroundColors oddBackground = ConsoleControl::BackgroundColors::CYAN;
+    const static ConsoleControl::BackgroundColors evenBackground = ConsoleControl::BackgroundColors::GREEN;
+
     BoardTile board[BoardSize][BoardSize];
     King* whiteKing;
     King* blackKing;

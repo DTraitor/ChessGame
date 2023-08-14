@@ -32,9 +32,12 @@ private:
 
 inline bool checkArray(BoardTile* array, int size){
     for (int i = 0; i < std::abs(size); i++) {
-        if(array[i].hasPiece())
+        if(array[i].hasPiece()){
+            delete array;
             return false;
+        }
     }
+    delete array;
     return true;
 }
 

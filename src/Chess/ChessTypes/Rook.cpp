@@ -8,7 +8,7 @@ bool Rook::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) 
 
     try{
         checkArray(
-                board.getCardinalLine(ourTile, tileToMove),
+                board.GetCardinalLine(ourTile, tileToMove),
                 (tileToMove.getX() - ourTile.getX()) || (tileToMove.getY() - ourTile.getY())
         );
     }

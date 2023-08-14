@@ -8,7 +8,7 @@ bool Bishop::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board
 
     try{
         checkArray(
-                board.getDiagonalLine(ourTile, tileToMove),
+                board.GetDiagonalLine(ourTile, tileToMove),
                 tileToMove.getX() - ourTile.getX()
         );
     }

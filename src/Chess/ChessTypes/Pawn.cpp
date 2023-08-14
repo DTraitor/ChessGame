@@ -11,7 +11,7 @@ bool Pawn::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) 
         return false;
 
     //If we try to move backwards or more than 1 tile forward
-    if(isBlack()){
+    if(IsBlack()){
         if((ourTile.getY() - tileToMove.getY()) != 1)
             return false;
     }

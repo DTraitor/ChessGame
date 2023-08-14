@@ -1,37 +1,23 @@
 #include <iostream>
-//No linux support YET
-#include <windows.h>
 #include "Board/GameBoard.h"
-
-
-enum Keys{
-    Up = 72,
-    Left = 75,
-    Right = 77,
-    Down = 80
-};
-
-void setCursorVisibility(HANDLE &console, bool visibility){
-    CONSOLE_CURSOR_INFO cursorInfo;
-
-    GetConsoleCursorInfo(console, &cursorInfo);
-    cursorInfo.bVisible = visibility;
-    SetConsoleCursorInfo(console, &cursorInfo);
-}
+#include "ConsoleOuput/ConsoleControl.h"
 
 int main() {
-    system("cls");
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    setCursorVisibility(hConsole, false);
-    SetConsoleTitle("The Chess Game");
+#ifdef _WIN32
+    ConsoleControl::SetVirtualTerminalProcessing(true);
+#endif
+    ConsoleControl::ResetConsole();
+    ConsoleControl::SetCursorVisibility(false);
 
     GameBoard board;
-    board.PrintBoard(hConsole);
+    board.PrintBoard();
 
-    int selectedX = 0;
-    int selectedY = 0;
+    std::cin.get();
 
-    setCursorVisibility(hConsole, true);
-    SetConsoleTextAttribute(hConsole,15);
+    ConsoleControl::SetCursorVisibility(true);
+    ConsoleControl::ResetConsole();
+#ifdef _WIN32
+    ConsoleControl::SetVirtualTerminalProcessing(false);
+#endif
     return 0;
 }

@@ -60,7 +60,7 @@ void GameBoard::GenerateFigures(int line, bool isBlack) {
     board[line][7].setPiece(new Rook(isBlack));
 }
 
-BoardTile* GameBoard::getDiagonalLine(const BoardTile& first, const BoardTile& last){
+BoardTile* GameBoard::GetDiagonalLine(const BoardTile& first, const BoardTile& last){
     if(std::abs(first.getX() - last.getX()) != std::abs(first.getY() - last.getY()))
         throw std::logic_error("Tried to get diagonal line between 2 non-diagonal tiles!");
 
@@ -76,7 +76,7 @@ BoardTile* GameBoard::getDiagonalLine(const BoardTile& first, const BoardTile& l
     return returnArray;
 }
 
-BoardTile* GameBoard::getCardinalLine(const BoardTile& first, const BoardTile& last){
+BoardTile* GameBoard::GetCardinalLine(const BoardTile& first, const BoardTile& last){
     if((first.getX() != last.getX()) && (first.getY() != last.getY()))
         throw std::logic_error("Tried to get cardinal line between 2 diagonal tiles!");
 
@@ -103,25 +103,18 @@ BoardTile* GameBoard::getCardinalLine(const BoardTile& first, const BoardTile& l
     return returnArray;
 }
 
-void GameBoard::PrintBoard(HANDLE &console) {
+void GameBoard::PrintBoard() {
+    ConsoleControl::TextFormat format{ConsoleControl::TextAttributes::NONE};
+
     for(int i = 0; i < BoardSize; i++)
     {
         for(int j = 0; j < BoardSize; j++){
-            unsigned short textColor = ((i + j) & 1) ? WHITE_BACKGROUND : BLACK_BACKGROUND;
-
+            format.backgroundColor = ((i + j) & 1) ? oddBackground : evenBackground;
             if(board[i][j].hasPiece())
-                textColor |= board[i][j].getPiece()->isBlack() ? BLACK_TEXT : WHITE_TEXT;
+                format.textColor = board[i][j].getPiece()->IsBlack() ? blackColor : whiteColor;
 
-            SetConsoleTextAttribute(
-                    console,
-                    textColor
-            );
-            std::cout << (board[i][j].hasPiece() ? board[i][j].getPiece()->getIcon() : ' ');
+            std::cout << format.FormatString(board[i][j].hasPiece() ? board[i][j].getPiece()->GetIcon() : ' ');
         }
-        SetConsoleTextAttribute(
-                console,
-                15
-        );
         std::cout << "\n";
     }
 
