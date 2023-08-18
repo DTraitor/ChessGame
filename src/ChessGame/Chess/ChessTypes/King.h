@@ -8,8 +8,19 @@ namespace ChessGame {
     class King : public ChessPiece {
     public:
         King(const bool &isBlack) : ChessPiece(isBlack, 'K') {}
-        bool canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
+        bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
+        bool IsMate(BoardTile &toCheck, GameBoard &board);
+        bool IsCheckmate(BoardTile &toCheck, GameBoard &board);
     };
+
+    inline bool checkArrayForMate(std::vector<BoardTile> toCheck, BoardTile &ourTile, GameBoard &board, bool isBlack){
+        for(BoardTile &tile : toCheck){
+            if(!tile.HasPiece())
+                continue;
+            return tile.GetPiece()->CanMove(tile, ourTile, board);
+        }
+        return false;
+    }
 } // ChessGame
 
 

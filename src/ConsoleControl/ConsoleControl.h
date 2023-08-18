@@ -7,6 +7,8 @@
 namespace ConsoleControl {
     enum class KeyCodes{
         CTRL_C = 3,
+        ENTER = 13,
+        ESC = 27,
         UP = 72,
         LEFT = 75,
         RIGHT = 77,
@@ -59,7 +61,9 @@ namespace ConsoleControl {
     void CursorRight();
     void CursorLeft();
     void SetCursorControls();
+    void SetCursorTurnInformation();
     void SetCursorInformation();
+    void EraseLineAfter();
 
     struct TextFormat{
         template <typename toFormat>

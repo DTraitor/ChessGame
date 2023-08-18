@@ -2,11 +2,11 @@
 #include "../Board/BoardTile.h"
 
 namespace ChessGame {
-    bool ChessPiece::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if ((ourTile.getX() == tileToMove.getX()) && (ourTile.getY() == tileToMove.getY()))
+    bool ChessPiece::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
+        if ((ourTile.GetX() == tileToMove.GetX()) && (ourTile.GetY() == tileToMove.GetY()))
             return false;
 
-        if (tileToMove.hasPiece() && (tileToMove.getPiece()->IsBlack() == this->IsBlack()))
+        if (tileToMove.HasPiece() && (tileToMove.GetPiece()->IsBlack() == this->IsBlack()))
             return false;
 
         return true;

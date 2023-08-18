@@ -9,7 +9,7 @@ namespace ChessGame {
     public:
         Knight(const bool &isBlack) : ChessPiece(isBlack, 'N') {}
 
-        bool canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
+        bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
     };
 } // ChessGame
 

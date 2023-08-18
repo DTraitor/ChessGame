@@ -3,15 +3,12 @@
 #include <stdexcept>
 
 namespace ChessGame {
-    bool Rook::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::canMove(ourTile, tileToMove, board))
+    bool Rook::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
+        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
             return false;
 
         try {
-            checkArray(
-                    board.GetCardinalLine(ourTile, tileToMove),
-                    (tileToMove.getX() - ourTile.getX()) || (tileToMove.getY() - ourTile.getY())
-            );
+            checkArray(board.GetCardinalLine(ourTile, tileToMove));
         }
         catch (std::logic_error &e) {
             return false;

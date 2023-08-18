@@ -29,22 +29,37 @@ void ConsoleControl::ResetConsole() {
 }
 
 void ConsoleControl::SetCursorPosition(int x, int y) {
-    std::cout << "\33[" << y << ";" << x << "H";
+    std::cout << "\33[" << y << ";" << x << "H"<< std::flush;
 }
 
 void ConsoleControl::CursorUp() {
-    std::cout << "\33[1A";
+    std::cout << "\33[1A" << std::flush;
 }
 
 void ConsoleControl::CursorDown() {
-    std::cout << "\33[1B";
+    std::cout << "\33[1B" << std::flush;
 }
 
 void ConsoleControl::CursorRight() {
-    std::cout << "\33[1C";
+    std::cout << "\33[1C" << std::flush;
 }
 
 void ConsoleControl::CursorLeft() {
-    std::cout << "\33[1D";
+    std::cout << "\33[1D" << std::flush;
 }
 
+void ConsoleControl::SetCursorControls(){
+    SetCursorPosition(1, 13);
+}
+
+void ConsoleControl::SetCursorTurnInformation(){
+    SetCursorPosition(1, 9);
+}
+
+void ConsoleControl::SetCursorInformation(){
+    SetCursorPosition(1, 11);
+}
+
+void ConsoleControl::EraseLineAfter() {
+    std::cout << "\33[K" << std::flush;
+}

@@ -2,33 +2,31 @@
 #include "BoardTile.h"
 
 namespace ChessGame {
-    BoardTile::BoardTile(const int &x, const int &y) {
-        this->x = x;
-        this->y = y;
-    }
-
-    BoardTile::BoardTile() {
-        this->x = 0;
-        this->y = 0;
-    }
-
     std::string BoardTile::GenerateDefaultString() {
         ConsoleControl::TextFormat format{ConsoleControl::TextAttributes::NONE};
-        format.backgroundColor = ((getX() + getY()) & 1) ? oddBackground : evenBackground;
-        if (hasPiece())
-            format.textColor = getPiece()->IsBlack() ? blackColor : whiteColor;
+        format.backgroundColor = ((GetX() + GetY()) & 1) ? oddBackground : evenBackground;
+        if (HasPiece())
+            format.textColor = GetPiece()->IsBlack() ? blackColor : whiteColor;
 
-        return format.FormatString(hasPiece() ? getPiece()->GetIcon() : ' ');
+        return format.FormatString(HasPiece() ? GetPiece()->GetIcon() : ' ');
     }
 
-    std::string BoardTile::GeneratedSelectedString() {
+    std::string BoardTile::GenerateHoverString() {
+        ConsoleControl::TextFormat format{ConsoleControl::TextAttributes::NONE};
+        format.backgroundColor = hoverBackground;
+        if (HasPiece())
+            format.textColor = GetPiece()->IsBlack() ? blackColor : whiteColor;
+
+        return format.FormatString(HasPiece() ? GetPiece()->GetIcon() : ' ');
+    }
+
+    std::string BoardTile::GenerateSelectedString() {
         ConsoleControl::TextFormat format{ConsoleControl::TextAttributes::NONE};
         format.backgroundColor = selectedBackground;
-        if (hasPiece())
-            format.textColor = getPiece()->IsBlack() ? blackColor : whiteColor;
+        if (HasPiece())
+            format.textColor = GetPiece()->IsBlack() ? blackColor : whiteColor;
 
-        return format.FormatString(hasPiece() ? getPiece()->GetIcon() : ' ');
+        return format.FormatString(HasPiece() ? GetPiece()->GetIcon() : ' ');
     }
-
 
 } // ChessGame

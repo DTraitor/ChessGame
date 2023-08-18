@@ -3,29 +3,23 @@
 #include <stdexcept>
 
 namespace ChessGame {
-    bool Queen::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::canMove(ourTile, tileToMove, board))
+    bool Queen::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
+        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
             return false;
 
-        if ((tileToMove.getX() - ourTile.getX()) && (tileToMove.getY() - ourTile.getY())) {
-            if (std::abs(tileToMove.getX() - ourTile.getX()) != std::abs(tileToMove.getY() - ourTile.getY()))
+        if ((tileToMove.GetX() - ourTile.GetX()) && (tileToMove.GetY() - ourTile.GetY())) {
+            if (std::abs(tileToMove.GetX() - ourTile.GetX()) != std::abs(tileToMove.GetY() - ourTile.GetY()))
                 return false;
 
             try {
-                checkArray(
-                        board.GetDiagonalLine(ourTile, tileToMove),
-                        tileToMove.getX() - ourTile.getX()
-                );
+                checkArray(board.GetDiagonalLine(ourTile, tileToMove));
             }
             catch (std::logic_error &e) {
                 return false;
             }
         } else {
             try {
-                checkArray(
-                        board.GetCardinalLine(ourTile, tileToMove),
-                        (tileToMove.getX() - ourTile.getX()) || (tileToMove.getY() - ourTile.getY())
-                );
+                checkArray(board.GetCardinalLine(ourTile, tileToMove));
             }
             catch (std::logic_error &e) {
                 return false;

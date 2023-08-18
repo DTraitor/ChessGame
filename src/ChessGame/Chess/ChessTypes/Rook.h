@@ -9,7 +9,7 @@ namespace ChessGame {
     public:
         Rook(const bool &isBlack) : ChessPiece(isBlack, 'R') {}
 
-        bool canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
+        bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
     };
 } //ChessGame
 

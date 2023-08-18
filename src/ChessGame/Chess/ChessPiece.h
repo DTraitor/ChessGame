@@ -21,13 +21,13 @@ namespace ChessGame {
         }
 
         //If we can move onto this tile
-        virtual bool canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board);
+        virtual bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board);
 
     private:
         // Character representing this piece
         const char icon;
         // Whether it's black or white
-        bool black;
+        const bool black;
     };
 } // ChessGame
 

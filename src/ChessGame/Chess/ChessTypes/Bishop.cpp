@@ -3,15 +3,12 @@
 #include <stdexcept>
 
 namespace ChessGame {
-    bool Bishop::canMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::canMove(ourTile, tileToMove, board))
+    bool Bishop::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
+        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
             return false;
 
         try {
-            checkArray(
-                    board.GetDiagonalLine(ourTile, tileToMove),
-                    tileToMove.getX() - ourTile.getX()
-            );
+            checkArray(board.GetDiagonalLine(ourTile, tileToMove));
         }
         catch (std::logic_error &e) {
             return false;
