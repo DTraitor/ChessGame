@@ -7,8 +7,8 @@
 namespace ChessGame {
     class Bishop : public ChessPiece{
     public:
-        Bishop(const bool& isBlack) : ChessPiece(isBlack, 'B') {}
-        bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
+        Bishop(BoardTile *ourTile, const bool& isBlack) : ChessPiece(ourTile, isBlack, 'B') {}
+        bool CanMove(BoardTile &previousTile, BoardTile &newTile) override;
     };
 } // ChessPiece
 

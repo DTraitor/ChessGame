@@ -7,9 +7,9 @@
 namespace ChessGame {
     class Queen : public ChessPiece {
     public:
-        Queen(const bool &isBlack) : ChessPiece(isBlack, 'Q') {}
+        Queen(BoardTile *ourTile, const bool &isBlack) : ChessPiece(ourTile, isBlack, 'Q') {}
 
-        bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
+        bool CanMove(BoardTile &previousTile, BoardTile &newTile) override;
     };
 } // ChessGame
 

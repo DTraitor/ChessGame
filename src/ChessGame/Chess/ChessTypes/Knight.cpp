@@ -2,12 +2,12 @@
 #include "Knight.h"
 
 namespace ChessGame {
-    bool Knight::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
+    bool Knight::CanMove(BoardTile &previousTile, BoardTile &newTile) {
+        if (!ChessPiece::CanMove(previousTile, newTile))
             return false;
 
-        int deltaX = std::abs(ourTile.GetX() - tileToMove.GetX());
-        int deltaY = std::abs(ourTile.GetY() - tileToMove.GetY());
+        int deltaX = std::abs(previousTile.GetX() - newTile.GetX());
+        int deltaY = std::abs(previousTile.GetY() - newTile.GetY());
 
         if (deltaX != 2 && deltaY != 2)
             return false;

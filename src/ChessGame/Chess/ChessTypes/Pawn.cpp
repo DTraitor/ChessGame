@@ -3,30 +3,30 @@
 #include <cmath>
 
 namespace ChessGame {
-    bool Pawn::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
+    bool Pawn::CanMove(BoardTile &previousTile, BoardTile &newTile) {
+        if (!ChessPiece::CanMove(previousTile, newTile))
             return false;
 
         //If we try to move left or right for more than 1 tile
-        if (std::abs(tileToMove.GetX() - ourTile.GetX()) > 1)
+        if (std::abs(newTile.GetX() - previousTile.GetX()) > 1)
             return false;
 
         //If we try to move backwards or more than 1 tile forward
         if (IsBlack()) {
-            if ((ourTile.GetY() - tileToMove.GetY()) != -1)
+            if ((previousTile.GetY() - newTile.GetY()) != -1)
                 return false;
         } else {
-            if ((ourTile.GetY() - tileToMove.GetY()) != 1)
+            if ((previousTile.GetY() - newTile.GetY()) != 1)
                 return false;
         }
 
-        if (tileToMove.HasPiece()) {
+        if (newTile.HasPiece()) {
             //Pawn can attack only diagonally
-            if (!(tileToMove.GetX() - ourTile.GetX()))
+            if (!(newTile.GetX() - previousTile.GetX()))
                 return false;
         } else {
             //Pawn cant move diagonally without attacking
-            if (tileToMove.GetX() - ourTile.GetX())
+            if (newTile.GetX() - previousTile.GetX())
                 return false;
         }
 

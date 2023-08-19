@@ -2,20 +2,21 @@
 #include "King.h"
 
 namespace ChessGame {
-    bool King::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
+    bool King::CanMove(BoardTile &previousTile, BoardTile &newTile) {
+        if (!ChessPiece::CanMove(previousTile, newTile))
             return false;
 
-        if (std::abs(ourTile.GetX() - tileToMove.GetX()) > 1 || std::abs(ourTile.GetY() - tileToMove.GetY()) > 1)
+        if (std::abs(previousTile.GetX() - newTile.GetX()) > 1 || std::abs(previousTile.GetY() - newTile.GetY()) > 1)
             return false;
 
-        if(IsMate(tileToMove, board))
+        if(IsMate(previousTile))
             return false;
 
         return true;
     }
 
-    bool King::IsMate(BoardTile &toCheck, GameBoard &board) {
+    bool King::IsMate(BoardTile &toCheck) {
+        //Cardinal check
         if(toCheck.GetX() > 1){
             if(checkArrayForMate(
                     board.GetCardinalLine(toCheck, board.GetTileAt(1, toCheck.GetY())),
@@ -76,6 +77,8 @@ namespace ChessGame {
             }
         }
 
+        //Diagonal check
+
         if(toCheck.GetY() < GameBoard::BoardSize){
             if(checkArrayForMate(
                     board.GetDiagonalLine(toCheck, board.GetTileAt(toCheck.GetX(), GameBoard::BoardSize)),
@@ -116,51 +119,53 @@ namespace ChessGame {
             }
         }
 
-        if(toCheck.GetX() > 2 && toCheck.GetY() > 2){
-            if(toCheck.GetX() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 3, toCheck.GetY() - 2);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
+        //Check for knights
+
+        if(toCheck.GetX() > 1 && toCheck.GetY() > 1){
+            if(toCheck.GetX() > 2){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 2, toCheck.GetY() - 1);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
-            if(toCheck.GetY() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 2, toCheck.GetY() - 3);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
-                    return true;
-            }
-        }
-        if(toCheck.GetX() > 2 && toCheck.GetY() < GameBoard::BoardSize - 1){
-            if(toCheck.GetX() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 3, toCheck.GetY() + 2);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
-                    return true;
-            }
-            if(toCheck.GetY() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 2, toCheck.GetY() + 3);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
+            if(toCheck.GetY() > 2){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 1, toCheck.GetY() - 2);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
         }
-        if(toCheck.GetX() < GameBoard::BoardSize - 1 && toCheck.GetY() > 2){
-            if(toCheck.GetX() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 3, toCheck.GetY() - 2);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
+        if(toCheck.GetX() > 1 && toCheck.GetY() < GameBoard::BoardSize){
+            if(toCheck.GetX() > 2){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 2, toCheck.GetY() + 1);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
-            if(toCheck.GetY() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 2, toCheck.GetY() - 3);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
+            if(toCheck.GetY() < GameBoard::BoardSize - 1){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 1, toCheck.GetY() + 2);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
         }
-        if(toCheck.GetX() < GameBoard::BoardSize - 1 && toCheck.GetY() < GameBoard::BoardSize - 1){
-            if(toCheck.GetX() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 3, toCheck.GetY() + 2);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
+        if(toCheck.GetX() < GameBoard::BoardSize && toCheck.GetY() > 1){
+            if(toCheck.GetX() < GameBoard::BoardSize - 1){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 2, toCheck.GetY() - 1);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
-            if(toCheck.GetY() > 3){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 2, toCheck.GetY() + 3);
-                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck, board))
+            if(toCheck.GetY() > 2){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 1, toCheck.GetY() - 2);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
+                    return true;
+            }
+        }
+        if(toCheck.GetX() < GameBoard::BoardSize && toCheck.GetY() < GameBoard::BoardSize){
+            if(toCheck.GetX() < GameBoard::BoardSize - 1){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 2, toCheck.GetY() + 1);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
+                    return true;
+            }
+            if(toCheck.GetY() < GameBoard::BoardSize - 1){
+                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 1, toCheck.GetY() + 2);
+                if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
         }
@@ -168,13 +173,13 @@ namespace ChessGame {
         return false;
     }
 
-    bool King::IsCheckmate(BoardTile &toCheck, GameBoard &board){
+    bool King::IsCheckmate(BoardTile &toCheck){
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
                 BoardTile &tile = board.GetTileAt(toCheck.GetX() - i, toCheck.GetY() - j);
                 if(tile.HasPiece() && (tile.GetPiece()->IsBlack() == IsBlack()))
                     continue;
-                if(!IsMate(tile, board))
+                if(!IsMate(tile))
                     return false;
             }
         }

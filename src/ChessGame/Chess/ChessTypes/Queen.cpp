@@ -3,28 +3,26 @@
 #include <stdexcept>
 
 namespace ChessGame {
-    bool Queen::CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) {
-        if (!ChessPiece::CanMove(ourTile, tileToMove, board))
+    bool Queen::CanMove(BoardTile &previousTile, BoardTile &newTile) {
+        if (!ChessPiece::CanMove(previousTile, newTile))
             return false;
 
-        if ((tileToMove.GetX() - ourTile.GetX()) && (tileToMove.GetY() - ourTile.GetY())) {
-            if (std::abs(tileToMove.GetX() - ourTile.GetX()) != std::abs(tileToMove.GetY() - ourTile.GetY()))
+        if ((newTile.GetX() - previousTile.GetX()) && (newTile.GetY() - previousTile.GetY())) {
+            if (std::abs(newTile.GetX() - previousTile.GetX()) != std::abs(newTile.GetY() - previousTile.GetY()))
                 return false;
 
             try {
-                checkArray(board.GetDiagonalLine(ourTile, tileToMove));
-            }
-            catch (std::logic_error &e) {
-                return false;
-            }
-        } else {
-            try {
-                checkArray(board.GetCardinalLine(ourTile, tileToMove));
+                return CanMoveAlongLine(board.GetDiagonalLine(previousTile, newTile));
             }
             catch (std::logic_error &e) {
                 return false;
             }
         }
-        return true;
+        try {
+            return CanMoveAlongLine(board.GetCardinalLine(previousTile, newTile));
+        }
+        catch (std::logic_error &e) {
+            return false;
+        }
     }
 }

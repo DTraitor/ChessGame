@@ -12,27 +12,25 @@ namespace ChessGame {
     class GameBoard {
     public:
         GameBoard();
-
         ~GameBoard();
-
         void CleanBoard();
-
         void ResetBoard();
-
-        void GenerateFigures(int line, bool isBlack);
-
-        std::vector<BoardTile> GetDiagonalLine(const BoardTile &first, const BoardTile &last);
-
-        std::vector<BoardTile> GetCardinalLine(const BoardTile &first, const BoardTile &last);
-
         void PrintBoard();
+        std::vector<BoardTile> GetDiagonalLine(const BoardTile &first, const BoardTile &last);
+        std::vector<BoardTile> GetCardinalLine(const BoardTile &first, const BoardTile &last);
 
         inline BoardTile &GetTileAt(uint8_t x, uint8_t y){
             return board[y - 1][x - 1];
         }
 
+        inline std::shared_ptr<King> GetKing(bool isBlack){
+            return isBlack ? blackKing : whiteKing;
+        }
+
         const static int8_t BoardSize = 8;
     private:
+        void GenerateFigures(int line, bool isBlack);
+
         std::array<std::array<BoardTile, BoardSize>, BoardSize> board = {{
             {{{1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}}},
             {{{1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2}}},
@@ -46,6 +44,8 @@ namespace ChessGame {
         std::shared_ptr<King> whiteKing;
         std::shared_ptr<King> blackKing;
     };
+
+    static GameBoard board;
 } // ChessGame
 
 

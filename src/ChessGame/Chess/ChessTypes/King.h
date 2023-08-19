@@ -7,17 +7,17 @@
 namespace ChessGame {
     class King : public ChessPiece {
     public:
-        King(const bool &isBlack) : ChessPiece(isBlack, 'K') {}
-        bool CanMove(BoardTile &ourTile, BoardTile &tileToMove, GameBoard &board) override;
-        bool IsMate(BoardTile &toCheck, GameBoard &board);
-        bool IsCheckmate(BoardTile &toCheck, GameBoard &board);
+        King(BoardTile *ourTile, const bool &isBlack) : ChessPiece(ourTile, isBlack, 'K') {}
+        bool CanMove(BoardTile &previousTile, BoardTile &newTile) override;
+        bool IsMate(BoardTile &toCheck);
+        bool IsCheckmate(BoardTile &toCheck);
     };
 
     inline bool checkArrayForMate(std::vector<BoardTile> toCheck, BoardTile &ourTile, GameBoard &board, bool isBlack){
         for(BoardTile &tile : toCheck){
             if(!tile.HasPiece())
                 continue;
-            return tile.GetPiece()->CanMove(tile, ourTile, board);
+            return tile.GetPiece()->CanMove(tile, ourTile);
         }
         return false;
     }

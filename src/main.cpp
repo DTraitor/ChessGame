@@ -3,9 +3,9 @@
 #include "ChessGame/Board/GameBoard.h"
 #include "ConsoleControl/ConsoleControl.h"
 
-ChessGame::GameBoard board;
 int32_t hoverX = 1;
 int32_t hoverY = 1;
+const static std::string rowLetters = "abcdefgh";
 //Whose turn white or black
 bool blackTurn = false;
 // NOTE: Pointer to an object on stack
@@ -25,13 +25,13 @@ int main() {
     ConsoleControl::ResetConsole();
     ConsoleControl::SetCursorVisibility(false);
 
-    board.PrintBoard();
+    ChessGame::board.PrintBoard();
 
     PrintControls();
     UpdateTurnInformation();
 
-    //Just to update
-    UpdateTileRender(board.GetTileAt(1, 1));
+    //To render ou
+    UpdateTileRender(ChessGame::board.GetTileAt(1, 1));
 
     bool runTheGame = true;
 
@@ -56,19 +56,48 @@ int main() {
                 break;
             case static_cast<int>(ConsoleControl::KeyCodes::ENTER):
                 if(selected == nullptr){
-                    selected = &board.GetTileAt(hoverX, hoverY);
+                    selected = &ChessGame::board.GetTileAt(hoverX, hoverY);
                     if(selected->HasPiece())
                         if(selected->GetPiece()->IsBlack() == blackTurn){
                             selected->SetSelected(true);
                             PrintInformation("Chess piece selected.");
-                        } else
+                            break;
+                        } else{
+                            selected = nullptr;
                             PrintInformation("Cannot select a tile with a chess piece of a different colour!");
-                    else
+                            break;
+                        }
+                    else{
+                        selected = nullptr;
                         PrintInformation("Cannot select a tile without a chess piece!");
+                        break;
+                    }
+                } else{
+                    if(selected == &ChessGame::board.GetTileAt(hoverX, hoverY)){
+                        selected->SetSelected(false);
+                        selected = nullptr;
+                        PrintInformation("Chess piece was de-selected.");
+                        break;
+                    } else{
+                        ChessGame::BoardTile &newSelection = ChessGame::board.GetTileAt(hoverX, hoverY);
+                        if(selected->GetPiece()->Move(newSelection)){
+                            std::string message = "Moved piece from ";
+                            message += rowLetters[selected->GetX()];
+                            message += std::to_string(selected->GetY());
+                            message += " to ";
+                            message += rowLetters[newSelection.GetX()];
+                            message += std::to_string(newSelection.GetY());
+                            message += ".";
+                            PrintInformation(message);
 
+                            blackTurn = !blackTurn;
+                            UpdateTurnInformation();
+                        } else{
+                            PrintInformation("Cannot move chess piece here!");
+                        }
+                    }
                 }
 
-                selected = nullptr;
                 break;
             case static_cast<int>(ConsoleControl::KeyCodes::ESC):
                 if(selected == nullptr)
@@ -125,7 +154,7 @@ void ChangeHover(int8_t deltaX, int8_t deltaY){
     if((hoverY + deltaY) < 1 || (hoverY + deltaY) > ChessGame::GameBoard::BoardSize)
         return;
 
-    ChessGame::BoardTile &previousTile = board.GetTileAt(hoverX, hoverY);
+    ChessGame::BoardTile &previousTile = ChessGame::board.GetTileAt(hoverX, hoverY);
     ConsoleControl::SetCursorPosition(hoverX, hoverY);
     if(previousTile.IsSelected()){
         std::cout << previousTile.GenerateSelectedString();
@@ -137,7 +166,7 @@ void ChangeHover(int8_t deltaX, int8_t deltaY){
     hoverX += deltaX;
     hoverY += deltaY;
 
-    ChessGame::BoardTile &newTile = board.GetTileAt(hoverX, hoverY);
+    ChessGame::BoardTile &newTile = ChessGame::board.GetTileAt(hoverX, hoverY);
     ConsoleControl::SetCursorPosition(hoverX, hoverY);
     std::cout << newTile.GenerateHoverString();
 }
