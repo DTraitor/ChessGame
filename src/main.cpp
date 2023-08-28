@@ -1,8 +1,12 @@
 #include <iostream>
 #include <conio.h>
 #include "ChessGame/Board/GameBoard.h"
+#include "ChessGame/GameStatus.h"
 #include "ConsoleControl/ConsoleControl.h"
 
+using ChessGame::GameStatus;
+
+ChessGame::GameBoard board;
 int32_t hoverX = 1;
 int32_t hoverY = 1;
 const static std::string rowLetters = "abcdefgh";
@@ -11,12 +15,15 @@ bool blackTurn = false;
 // NOTE: Pointer to an object on stack
 // Pointer to selected tile
 ChessGame::BoardTile *selected = nullptr;
+GameStatus gameStatus = GameStatus::ONGOING;
 
 void PrintControls();
 void PrintInformation(const std::string& info);
 void UpdateTurnInformation();
 void UpdateTileRender(ChessGame::BoardTile &tile);
 void ChangeHover(int8_t deltaX, int8_t deltaY);
+std::string OnTileSelectAttempt();
+
 
 int main() {
 #ifdef _WIN32
@@ -25,22 +32,19 @@ int main() {
     ConsoleControl::ResetConsole();
     ConsoleControl::SetCursorVisibility(false);
 
-    ChessGame::board.PrintBoard();
-
+    board.PrintBoard();
     PrintControls();
     UpdateTurnInformation();
 
-    //To render ou
-    UpdateTileRender(ChessGame::board.GetTileAt(1, 1));
+    //To render default hovering
+    UpdateTileRender(board.GetTileAt(1, 1));
 
-    bool runTheGame = true;
-
-    while (runTheGame){
+    while (gameStatus == GameStatus::ONGOING){
         switch (_getch()) {
             //Who the hell though it was a good idea to intercept Ctrl+C...
             case static_cast<int>(ConsoleControl::KeyCodes::CTRL_C):
             case static_cast<int>(ConsoleControl::KeyCodes::SMALL_X):
-                runTheGame = false;
+                gameStatus = GameStatus::DRAW;
                 break;
             case static_cast<int>(ConsoleControl::KeyCodes::UP):
                 ChangeHover(0, -1);
@@ -55,49 +59,7 @@ int main() {
                 ChangeHover(-1, 0);
                 break;
             case static_cast<int>(ConsoleControl::KeyCodes::ENTER):
-                if(selected == nullptr){
-                    selected = &ChessGame::board.GetTileAt(hoverX, hoverY);
-                    if(selected->HasPiece())
-                        if(selected->GetPiece()->IsBlack() == blackTurn){
-                            selected->SetSelected(true);
-                            PrintInformation("Chess piece selected.");
-                            break;
-                        } else{
-                            selected = nullptr;
-                            PrintInformation("Cannot select a tile with a chess piece of a different colour!");
-                            break;
-                        }
-                    else{
-                        selected = nullptr;
-                        PrintInformation("Cannot select a tile without a chess piece!");
-                        break;
-                    }
-                } else{
-                    if(selected == &ChessGame::board.GetTileAt(hoverX, hoverY)){
-                        selected->SetSelected(false);
-                        selected = nullptr;
-                        PrintInformation("Chess piece was de-selected.");
-                        break;
-                    } else{
-                        ChessGame::BoardTile &newSelection = ChessGame::board.GetTileAt(hoverX, hoverY);
-                        if(selected->GetPiece()->Move(newSelection)){
-                            std::string message = "Moved piece from ";
-                            message += rowLetters[selected->GetX()];
-                            message += std::to_string(selected->GetY());
-                            message += " to ";
-                            message += rowLetters[newSelection.GetX()];
-                            message += std::to_string(newSelection.GetY());
-                            message += ".";
-                            PrintInformation(message);
-
-                            blackTurn = !blackTurn;
-                            UpdateTurnInformation();
-                        } else{
-                            PrintInformation("Cannot move chess piece here!");
-                        }
-                    }
-                }
-
+                PrintInformation(OnTileSelectAttempt());
                 break;
             case static_cast<int>(ConsoleControl::KeyCodes::ESC):
                 if(selected == nullptr)
@@ -105,6 +67,21 @@ int main() {
                 selected->SetSelected(false);
                 UpdateTileRender(*selected);
                 selected = nullptr;
+                break;
+            case static_cast<int>(ConsoleControl::KeyCodes::SMALL_R):
+                board.ResetBoard();
+
+                blackTurn = false;
+                UpdateTurnInformation();
+
+                ConsoleControl::SetCursorPosition(1, 1);
+                board.PrintBoard();
+
+                hoverX = 1;
+                hoverY = 1;
+                UpdateTileRender(board.GetTileAt(1, 1));
+
+                PrintInformation("The game was successfully restarted!");
                 break;
         }
     }
@@ -119,7 +96,8 @@ int main() {
 
 void PrintControls(){
     ConsoleControl::SetCursorControls();
-    std::cout << "[ X ] - Exit | [ ENTER ] - Choose Tile\n";
+    std::cout << "[ X ] - Exit | [ R ] - Restart The Game\n";
+    std::cout << "[ ENTER ] - Select Tile | [ ESC ] - De-select Tile\n";
     std::cout << "[ UP ] - Move Up | [ DOWN ] - Move Down\n";
     std::cout << "[ LEFT ] - Move Left | [ RIGHT ] - Move Right";
 }
@@ -154,7 +132,7 @@ void ChangeHover(int8_t deltaX, int8_t deltaY){
     if((hoverY + deltaY) < 1 || (hoverY + deltaY) > ChessGame::GameBoard::BoardSize)
         return;
 
-    ChessGame::BoardTile &previousTile = ChessGame::board.GetTileAt(hoverX, hoverY);
+    ChessGame::BoardTile &previousTile = board.GetTileAt(hoverX, hoverY);
     ConsoleControl::SetCursorPosition(hoverX, hoverY);
     if(previousTile.IsSelected()){
         std::cout << previousTile.GenerateSelectedString();
@@ -162,11 +140,66 @@ void ChangeHover(int8_t deltaX, int8_t deltaY){
         std::cout << previousTile.GenerateDefaultString();
     }
 
-
     hoverX += deltaX;
     hoverY += deltaY;
 
-    ChessGame::BoardTile &newTile = ChessGame::board.GetTileAt(hoverX, hoverY);
+    ChessGame::BoardTile &newTile = board.GetTileAt(hoverX, hoverY);
     ConsoleControl::SetCursorPosition(hoverX, hoverY);
     std::cout << newTile.GenerateHoverString();
+}
+
+std::string OnTileSelectAttempt(){
+    //If none selected
+    if(selected == nullptr){
+        if(!board.GetTileAt(hoverX, hoverY).HasPiece())
+            return "Cannot select a tile without a chess piece!";
+        if(board.GetTileAt(hoverX, hoverY).GetPiece()->IsBlack() != blackTurn)
+            return "Cannot select a piece of a different colour!";
+        selected = &board.GetTileAt(hoverX, hoverY);
+        selected->SetSelected(true);
+        UpdateTileRender(*selected);
+        return "Chess piece selected.";
+    }
+
+    //De-select on attempt to select same tile
+    if(selected == &board.GetTileAt(hoverX, hoverY)){
+        selected->SetSelected(false);
+        UpdateTileRender(*selected);
+        selected = nullptr;
+        return "Chess piece de-selected.";
+    }
+
+
+    //Try to move a tile
+    if(selected->GetPiece()->Move(board.GetTileAt(hoverX, hoverX))){
+        if(board.GetKing(blackTurn)->IsMate()){
+            selected->GetPiece()->ForceMove(*selected);
+            return "Cannot move this chess piece here due to a mate to your king.";
+        }
+
+        std::string message = "Moved piece from ";
+        message += rowLetters[selected->GetX()];
+        message += std::to_string(selected->GetY());
+        message += " to ";
+        message += rowLetters[board.GetTileAt(hoverX, hoverX).GetX()];
+        message += std::to_string(board.GetTileAt(hoverX, hoverX).GetY());
+        message += ".";
+
+        UpdateTileRender(board.GetTileAt(hoverX, hoverX));
+        selected->SetSelected(false);
+        UpdateTileRender(*selected);
+        selected = nullptr;
+
+        //We moved so it's time to change a turn
+        blackTurn = !blackTurn;
+        UpdateTurnInformation();
+
+        if(board.GetKing(blackTurn)->IsCheckmate()){
+            gameStatus = blackTurn ? GameStatus::WHITE_WIN : GameStatus::BLACK_WIN;
+        }
+
+        return message;
+    }
+
+    return "Cannot move a chess piece here!";
 }

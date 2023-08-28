@@ -13,7 +13,8 @@ namespace ConsoleControl {
         LEFT = 75,
         RIGHT = 77,
         DOWN = 80,
-        SMALL_X = 'x'
+        SMALL_X = 'x',
+        SMALL_R = 'r'
     };
 
     enum class TextAttributes{

@@ -14,7 +14,7 @@ using std::int8_t;
 namespace ChessGame {
     class BoardTile {
     public:
-        BoardTile(const int8_t& x, const int8_t& y) : x(x), y(y) {}
+        BoardTile(GameBoard* board, const int8_t& x, const int8_t& y) : board(board), x(x), y(y) {}
         std::string GenerateDefaultString();
         std::string GenerateHoverString();
         std::string GenerateSelectedString();
@@ -43,6 +43,9 @@ namespace ChessGame {
         inline void SetSelected(bool selection){
             isSelected = selection;
         }
+        inline GameBoard& GetBoard(){
+            return *board;
+        }
 
         const static ConsoleControl::TextColors whiteColor = ConsoleControl::TextColors::WHITE;
         const static ConsoleControl::TextColors blackColor = ConsoleControl::TextColors::BLACK;
@@ -51,8 +54,11 @@ namespace ChessGame {
         const static ConsoleControl::BackgroundColors hoverBackground = ConsoleControl::BackgroundColors::MAGENTA;
         const static ConsoleControl::BackgroundColors selectedBackground = ConsoleControl::BackgroundColors::YELLOW;
     private:
-
+        // Constant pointer to a board the tile belongs to
+        GameBoard *const board;
+        // Smart pointer to a piece on this tile
         std::shared_ptr<ChessPiece> piece;
+        // If this tile is currently selected by the player
         bool isSelected = false;
         const int8_t x;
         const int8_t y;

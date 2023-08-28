@@ -11,9 +11,17 @@ namespace ChessGame {
         bool CanMove(BoardTile &previousTile, BoardTile &newTile) override;
         bool IsMate(BoardTile &toCheck);
         bool IsCheckmate(BoardTile &toCheck);
+
+        inline bool IsMate(){
+            return IsMate(GetOurTile());
+        }
+        inline bool IsCheckmate(){
+            return IsCheckmate(GetOurTile());
+        }
+
     };
 
-    inline bool checkArrayForMate(std::vector<BoardTile> toCheck, BoardTile &ourTile, GameBoard &board, bool isBlack){
+    inline bool checkArrayForMate(std::vector<BoardTile> toCheck, BoardTile &ourTile){
         for(BoardTile &tile : toCheck){
             if(!tile.HasPiece())
                 continue;

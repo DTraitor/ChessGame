@@ -1,5 +1,6 @@
 #include "ChessPiece.h"
 #include "../Board/BoardTile.h"
+#include "../Board/GameBoard.h"
 
 namespace ChessGame {
     bool ChessPiece::CanMove(BoardTile &previousTile, BoardTile &newTile) {
@@ -15,11 +16,20 @@ namespace ChessGame {
     bool ChessPiece::Move(BoardTile &newTile) {
         if(!CanMove(newTile))
             return false;
+
         BoardTile &oldTile = GetOurTile();
         newTile.SetPiece(std::shared_ptr<ChessPiece>(this));
         oldTile.RemovePiece();
         ourTile = &newTile;
+
         return true;
+    }
+
+    void ChessPiece::ForceMove(BoardTile &newTile) {
+        BoardTile &oldTile = GetOurTile();
+        newTile.SetPiece(std::shared_ptr<ChessPiece>(this));
+        oldTile.RemovePiece();
+        ourTile = &newTile;
     }
 
     bool ChessPiece::CanMoveAlongLine(std::vector<BoardTile> line) const {
@@ -32,5 +42,9 @@ namespace ChessGame {
         if(lastTile.HasPiece() && lastTile.GetPiece()->IsBlack() == IsBlack())
             return false;
         return true;
+    }
+
+    GameBoard &ChessPiece::GetBoard() {
+        return ourTile->GetBoard();
     }
 } // ChessGame

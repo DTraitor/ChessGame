@@ -21,6 +21,7 @@ namespace ChessGame {
         }
 
         bool Move(BoardTile &newTile);
+        void ForceMove(BoardTile &newTile);
 
         inline BoardTile &GetOurTile(){
             return *ourTile;
@@ -34,11 +35,12 @@ namespace ChessGame {
             return black;
         }
 
+        GameBoard& GetBoard();
+
     protected:
         [[nodiscard]] bool CanMoveAlongLine(std::vector<BoardTile> line) const;
 
     private:
-        //Shouldn't be null EVER
         BoardTile *ourTile;
         // Character representing this piece
         const char icon;

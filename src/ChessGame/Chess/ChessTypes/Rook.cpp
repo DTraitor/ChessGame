@@ -8,7 +8,7 @@ namespace ChessGame {
             return false;
 
         try {
-            return CanMoveAlongLine(board.GetCardinalLine(previousTile, newTile));
+            return CanMoveAlongLine(GetBoard().GetCardinalLine(previousTile, newTile));
         }
         catch (std::logic_error &e) {
             return false;

@@ -31,21 +31,21 @@ namespace ChessGame {
     private:
         void GenerateFigures(int line, bool isBlack);
 
+        //This is ugly but necessary
         std::array<std::array<BoardTile, BoardSize>, BoardSize> board = {{
-            {{{1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1}}},
-            {{{1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2}}},
-            {{{1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}, {6, 3}, {7, 3}, {8, 3}}},
-            {{{1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 4}, {7, 4}, {8, 4}}},
-            {{{1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}, {6, 5}, {7, 5}, {8, 5}}},
-            {{{1, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}, {6, 6}, {7, 6}, {8, 6}}},
-            {{{1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7}, {8, 7}}},
-            {{{1, 8}, {2, 8}, {3, 8}, {4, 8}, {5, 8}, {6, 8}, {7, 8}, {8, 8}}}
+            {{{this, 1, 1}, {this, 2, 1}, {this, 3, 1}, {this, 4, 1}, {this, 5, 1}, {this, 6, 1}, {this, 7, 1}, {this, 8, 1}}},
+            {{{this, 1, 2}, {this, 2, 2}, {this, 3, 2}, {this, 4, 2}, {this, 5, 2}, {this, 6, 2}, {this, 7, 2}, {this, 8, 2}}},
+            {{{this, 1, 3}, {this, 2, 3}, {this, 3, 3}, {this, 4, 3}, {this, 5, 3}, {this, 6, 3}, {this, 7, 3}, {this, 8, 3}}},
+            {{{this, 1, 4}, {this, 2, 4}, {this, 3, 4}, {this, 4, 4}, {this, 5, 4}, {this, 6, 4}, {this, 7, 4}, {this, 8, 4}}},
+            {{{this, 1, 5}, {this, 2, 5}, {this, 3, 5}, {this, 4, 5}, {this, 5, 5}, {this, 6, 5}, {this, 7, 5}, {this, 8, 5}}},
+            {{{this, 1, 6}, {this, 2, 6}, {this, 3, 6}, {this, 4, 6}, {this, 5, 6}, {this, 6, 6}, {this, 7, 6}, {this, 8, 6}}},
+            {{{this, 1, 7}, {this, 2, 7}, {this, 3, 7}, {this, 4, 7}, {this, 5, 7}, {this, 6, 7}, {this, 7, 7}, {this, 8, 7}}},
+            {{{this, 1, 8}, {this, 2, 8}, {this, 3, 8}, {this, 4, 8}, {this, 5, 8}, {this, 6, 8}, {this, 7, 8}, {this, 8, 8}}}
         }};
         std::shared_ptr<King> whiteKing;
         std::shared_ptr<King> blackKing;
     };
 
-    static GameBoard board;
 } // ChessGame
 
 

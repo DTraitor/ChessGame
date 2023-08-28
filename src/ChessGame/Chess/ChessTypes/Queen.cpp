@@ -12,14 +12,14 @@ namespace ChessGame {
                 return false;
 
             try {
-                return CanMoveAlongLine(board.GetDiagonalLine(previousTile, newTile));
+                return CanMoveAlongLine(GetBoard().GetDiagonalLine(previousTile, newTile));
             }
             catch (std::logic_error &e) {
                 return false;
             }
         }
         try {
-            return CanMoveAlongLine(board.GetCardinalLine(previousTile, newTile));
+            return CanMoveAlongLine(GetBoard().GetCardinalLine(previousTile, newTile));
         }
         catch (std::logic_error &e) {
             return false;

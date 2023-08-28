@@ -19,30 +19,24 @@ namespace ChessGame {
         //Cardinal check
         if(toCheck.GetX() > 1){
             if(checkArrayForMate(
-                    board.GetCardinalLine(toCheck, board.GetTileAt(1, toCheck.GetY())),
-                    toCheck,
-                    board,
-                    IsBlack()
+                    GetBoard().GetCardinalLine(toCheck, GetBoard().GetTileAt(1, toCheck.GetY())),
+                    toCheck
             ))
                 return true;
         }
 
         if(toCheck.GetX() < GameBoard::BoardSize){
             if(checkArrayForMate(
-                    board.GetCardinalLine(toCheck, board.GetTileAt(GameBoard::BoardSize, toCheck.GetY())),
-                    toCheck,
-                    board,
-                    IsBlack()
-            ))
+                    GetBoard().GetCardinalLine(toCheck, GetBoard().GetTileAt(GameBoard::BoardSize, toCheck.GetY())),
+                    toCheck
+                    ))
                 return true;
         }
 
         if(toCheck.GetY() > 1){
             if(checkArrayForMate(
-                    board.GetCardinalLine(toCheck, board.GetTileAt(toCheck.GetX(), 1)),
-                    toCheck,
-                    board,
-                    IsBlack()
+                    GetBoard().GetCardinalLine(toCheck, GetBoard().GetTileAt(toCheck.GetX(), 1)),
+                    toCheck
             ))
                 return true;
 
@@ -50,13 +44,11 @@ namespace ChessGame {
             if(toCheck.GetX() > 1){
                 int smallestDelta = std::min(toCheck.GetX() - 1, toCheck.GetY() - 1);
                 if(checkArrayForMate(
-                        board.GetCardinalLine(
+                        GetBoard().GetCardinalLine(
                                 toCheck,
-                                board.GetTileAt(toCheck.GetX() - smallestDelta, toCheck.GetY() - smallestDelta)
+                                GetBoard().GetTileAt(toCheck.GetX() - smallestDelta, toCheck.GetY() - smallestDelta)
                                 ),
-                        toCheck,
-                        board,
-                        IsBlack()
+                        toCheck
                 ))
                     return true;
             }
@@ -65,13 +57,11 @@ namespace ChessGame {
             if(toCheck.GetX() < GameBoard::BoardSize){
                 int smallestDelta = std::min(GameBoard::BoardSize - toCheck.GetX(), toCheck.GetY() - 1);
                 if(checkArrayForMate(
-                        board.GetCardinalLine(
+                        GetBoard().GetCardinalLine(
                                 toCheck,
-                            board.GetTileAt(toCheck.GetX() + smallestDelta, toCheck.GetY() - smallestDelta)
+                                GetBoard().GetTileAt(toCheck.GetX() + smallestDelta, toCheck.GetY() - smallestDelta)
                         ),
-                        toCheck,
-                        board,
-                        IsBlack()
+                        toCheck
                 ))
                     return true;
             }
@@ -81,10 +71,8 @@ namespace ChessGame {
 
         if(toCheck.GetY() < GameBoard::BoardSize){
             if(checkArrayForMate(
-                    board.GetDiagonalLine(toCheck, board.GetTileAt(toCheck.GetX(), GameBoard::BoardSize)),
-                    toCheck,
-                    board,
-                    IsBlack()
+                    GetBoard().GetDiagonalLine(toCheck, GetBoard().GetTileAt(toCheck.GetX(), GameBoard::BoardSize)),
+                    toCheck
             ))
                 return true;
 
@@ -92,13 +80,11 @@ namespace ChessGame {
             if(toCheck.GetX() > 1){
                 int smallestDelta = std::min(toCheck.GetX() - 1, GameBoard::BoardSize - toCheck.GetY());
                 if(checkArrayForMate(
-                        board.GetDiagonalLine(
+                        GetBoard().GetDiagonalLine(
                                 toCheck,
-                                board.GetTileAt(toCheck.GetX() - smallestDelta, toCheck.GetY() + smallestDelta)
+                                GetBoard().GetTileAt(toCheck.GetX() - smallestDelta, toCheck.GetY() + smallestDelta)
                         ),
-                        toCheck,
-                        board,
-                        IsBlack()
+                        toCheck
                 ))
                     return true;
             }
@@ -107,13 +93,11 @@ namespace ChessGame {
             if(toCheck.GetX() < GameBoard::BoardSize){
                 int smallestDelta = std::min(GameBoard::BoardSize - toCheck.GetX(), GameBoard::BoardSize - toCheck.GetY());
                 if(checkArrayForMate(
-                        board.GetDiagonalLine(
+                        GetBoard().GetDiagonalLine(
                                 toCheck,
-                                board.GetTileAt(toCheck.GetX() + smallestDelta, toCheck.GetY() + smallestDelta)
+                                GetBoard().GetTileAt(toCheck.GetX() + smallestDelta, toCheck.GetY() + smallestDelta)
                                 ),
-                            toCheck,
-                            board,
-                            IsBlack()
+                            toCheck
                             ))
                     return true;
             }
@@ -123,48 +107,48 @@ namespace ChessGame {
 
         if(toCheck.GetX() > 1 && toCheck.GetY() > 1){
             if(toCheck.GetX() > 2){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 2, toCheck.GetY() - 1);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() - 2, toCheck.GetY() - 1);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
             if(toCheck.GetY() > 2){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 1, toCheck.GetY() - 2);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() - 1, toCheck.GetY() - 2);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
         }
         if(toCheck.GetX() > 1 && toCheck.GetY() < GameBoard::BoardSize){
             if(toCheck.GetX() > 2){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 2, toCheck.GetY() + 1);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() - 2, toCheck.GetY() + 1);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
             if(toCheck.GetY() < GameBoard::BoardSize - 1){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - 1, toCheck.GetY() + 2);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() - 1, toCheck.GetY() + 2);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
         }
         if(toCheck.GetX() < GameBoard::BoardSize && toCheck.GetY() > 1){
             if(toCheck.GetX() < GameBoard::BoardSize - 1){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 2, toCheck.GetY() - 1);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() + 2, toCheck.GetY() - 1);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
             if(toCheck.GetY() > 2){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 1, toCheck.GetY() - 2);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() + 1, toCheck.GetY() - 2);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
         }
         if(toCheck.GetX() < GameBoard::BoardSize && toCheck.GetY() < GameBoard::BoardSize){
             if(toCheck.GetX() < GameBoard::BoardSize - 1){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 2, toCheck.GetY() + 1);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() + 2, toCheck.GetY() + 1);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
             if(toCheck.GetY() < GameBoard::BoardSize - 1){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() + 1, toCheck.GetY() + 2);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() + 1, toCheck.GetY() + 2);
                 if(tile.HasPiece() && tile.GetPiece()->CanMove(tile, toCheck))
                     return true;
             }
@@ -176,7 +160,7 @@ namespace ChessGame {
     bool King::IsCheckmate(BoardTile &toCheck){
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
-                BoardTile &tile = board.GetTileAt(toCheck.GetX() - i, toCheck.GetY() - j);
+                BoardTile &tile = GetBoard().GetTileAt(toCheck.GetX() - i, toCheck.GetY() - j);
                 if(tile.HasPiece() && (tile.GetPiece()->IsBlack() == IsBlack()))
                     continue;
                 if(!IsMate(tile))
